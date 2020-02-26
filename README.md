@@ -1,5 +1,5 @@
 # Christmas-Lights 
-Conversor de binário para decimal de acordo com as especificações do [Christmas-Lights] do repositório [App-ideas]
+pisca-pisca de acordo com as especificações do [Christmas-Lights] do repositório [App-ideas]
 
 ### Demo
 [demo]
