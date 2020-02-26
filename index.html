@@ -11,68 +11,165 @@
 			  min-width: 480px;
 			  margin: auto;
 			  display: flex;
+			  flex-wrap: wrap;
 			  justify-content: space-between;
 			}
 			.luz{
 				width: 60px;
 				height: 60px;
 				border-radius: 100%;
+				border: none;
 			}
 			.luz-1{
 				background-color: red;
 			}
+			.luz-1-sombra{
+				box-shadow: 6px 6px 50px 0px rgba(255, 27, 27, 0.80)
+			}
 			.luz-2{
 				background-color: orange;
+			}
+			.luz-2-sombra{
+				box-shadow: 6px 6px 50px 0px rgba(255, 165, 0, 0.80);
 			}
 			.luz-3{
 				background-color: yellow;
 			}
+			.luz-3-sombra{
+				box-shadow: 6px 6px 50px 0px rgba(255, 255, 0, 0.80);
+			}
 			.luz-4{
 				background-color: green;
+			}
+			.luz-4-sombra{
+				box-shadow: 6px 6px 50px 0px rgba(2, 236, 2, 0.80);
 			}
 			.luz-5{
 				background-color: lightblue;
 			}
+			.luz-5-sombra{
+				box-shadow: 6px 6px 50px 0px rgb(173, 216, 230, 0.80);
+			}
 			.luz-6{
 				background-color: blue;
 			}
+			.luz-6-sombra{
+				box-shadow: 6px 6px 50px 0px rgb(60, 60, 255, 0.80);
+			}
 			.luz-7{
-				background-color: purple;
+				background-color: #ff1eff;
+			}
+			.luz-7-sombra{
+				box-shadow: 6px 6px 50px 0px rgb(255, 59, 255, 0.80);
 			}
 			.overlay{
-				background-color:
-				#0000008a;
+				background-color: #000000b3;
 				width: 60px;
 				height: 60px;
 				border-radius: 100%;
 			}
 		</style>
 	</head>
-	<body>
+	<body style="background-color: #3a3a3a;">
 		<div class="container" id="conteudo">
 			<div class="luz luz-1">
-				<div class="overlay"></div>
+				<div class="overlay overlay1"></div>
 			</div>
 			<div class="luz luz-2">
-				<div class="overlay"></div>
+				<div class="overlay overlay2"></div>
 			</div>
 			<div class="luz luz-3">
-				<div class="overlay"></div>
+				<div class="overlay overlay1"></div>
 			</div>
 			<div class="luz luz-4">
-				<div class="overlay"></div>
+				<div class="overlay overlay2"></div>
 			</div>
 			<div class="luz luz-5">
-				<div class="overlay"></div>
+				<div class="overlay overlay1"></div>
 			</div>
 			<div class="luz luz-6">
-				<div class="overlay"></div>
+				<div class="overlay overlay2"></div>
 			</div>
 			<div class="luz luz-7">
-				<div class="overlay"></div>
+				<div class="overlay overlay1"></div>
+			</div>
+			<div style="width: 100%;margin-top: 16px;display: flex;justify-content: center; flex-wrap: wrap;">
+				<div style="width: 100%;display: flex;justify-content: center;">
+					<button onclick="Ligar()" style="height: 40px;width: 80px;border: none;background-color: #5fd7aa;color: white;font-size: 16px;font-weight: 700;">Start</button>
+					<button onclick="Desligar()" style="height: 40px;width: 80px;border: none;background-color: #d75f5f;color: white;font-size: 16px;font-weight: 700; margin-left: 16px;">Stop</button>
+				</div>
+				<div style="margin-top: 16px;display: flex;flex-wrap: wrap;justify-content: center;">
+					<p style="color: white;font-size: 18px;width: 100%;text-align: center;">press stop and start to start with the new interval</p>
+					<input style="height: 32px;width: 100px;" type="number" id="intervalo" value="1000" />
+				</div>
 			</div>
 		</div>
 		<script>
+		var luz1Ligada = false;
+		var luzes;
+		function Ligar(){			
+			var luzes1 = document.getElementsByClassName('overlay1');
+			var luzes2 = document.getElementsByClassName('overlay2');
+			var intervalo = parseInt(document.getElementById('intervalo').value);
+			luzes = setInterval(function(){ 
+						if(!luz1Ligada){
+							luz1Ligada = LigarLuzes(luzes1);
+							LigarSombra1();
+							DesligarLuzes(luzes2);
+							DesligarSombra2();
+						}
+						else{
+							luz1Ligada = DesligarLuzes(luzes1);
+							DesligarSombra1();
+							LigarLuzes(luzes2);
+							LigarSombra2();
+							}
+					}, intervalo);
+		}
+		
+		function Desligar(){
+			clearInterval(luzes);
+		}
+		
+		function LigarLuzes(luzes){
+			for (i = 0; i < luzes.length; i++) {
+			  luzes[i].style.display = "none";
+			}
+			return true;
+		}
+		
+		function DesligarLuzes(luzes){
+			for (i = 0; i < luzes.length; i++) {
+			  luzes[i].style.display = "inherit";
+			} 
+			return false;
+		}
+		
+		function LigarSombra1(){
+			document.getElementsByClassName('luz-1')[0].classList.add("luz-1-sombra");
+			document.getElementsByClassName('luz-3')[0].classList.add("luz-3-sombra");
+			document.getElementsByClassName('luz-5')[0].classList.add("luz-5-sombra");
+			document.getElementsByClassName('luz-7')[0].classList.add("luz-7-sombra");
+		}
+		
+		function DesligarSombra1(){
+			document.getElementsByClassName('luz-1')[0].classList.remove("luz-1-sombra");
+			document.getElementsByClassName('luz-3')[0].classList.remove("luz-3-sombra");
+			document.getElementsByClassName('luz-5')[0].classList.remove("luz-5-sombra");
+			document.getElementsByClassName('luz-7')[0].classList.remove("luz-7-sombra");
+		}
+		
+		function LigarSombra2(){
+			document.getElementsByClassName('luz-2')[0].classList.add("luz-2-sombra");
+			document.getElementsByClassName('luz-4')[0].classList.add("luz-4-sombra");
+			document.getElementsByClassName('luz-6')[0].classList.add("luz-6-sombra");
+		}
+		
+		function DesligarSombra2(){
+			document.getElementsByClassName('luz-2')[0].classList.remove("luz-2-sombra");
+			document.getElementsByClassName('luz-4')[0].classList.remove("luz-4-sombra");
+			document.getElementsByClassName('luz-6')[0].classList.remove("luz-6-sombra");
+		}
 		</script>
 	</body>
 </html>
